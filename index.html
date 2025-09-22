@@ -1206,28 +1206,16 @@
                 <div class="grid grid-2">
                     <div>
                         <div class="form-group">
-                            <label class="form-label">Budget Constraint</label>
-                            <select class="form-control" id="budgetConstraint" onchange="updateScenarios()">
-                                <option value="current">Current Budget ($2.4M)</option>
-                                <option value="reduced">10% Reduction ($2.16M)</option>
-                                <option value="increased">5% Increase ($2.52M)</option>
-                            </select>
+                            <label class="form-label">Budget Constraint: <span id="budgetConstraintValue">$5,000,000</span></label>
+                            <input type="range" class="form-control" id="budgetConstraint" min="0" max="10000000" value="5000000" oninput="updateScenarios()">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Seat Allocation Strategy</label>
-                            <select class="form-control" id="seatStrategy" onchange="updateScenarios()">
-                                <option value="maintain">Maintain Current (847 seats)</option>
-                                <option value="optimize">Optimize Based on Usage (620 seats)</option>
-                                <option value="expand">Expand Coverage (950 seats)</option>
-                            </select>
+                            <label class="form-label">Seat Allocation Strategy: <span id="seatStrategyValue">500</span> seats</label>
+                            <input type="range" class="form-control" id="seatStrategy" min="0" max="1000" value="500" oninput="updateScenarios()">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Contract Term</label>
-                            <select class="form-control" id="contractTerm" onchange="updateScenarios()">
-                                <option value="1">1 Year</option>
-                                <option value="2" selected>2 Years</option>
-                                <option value="3">3 Years</option>
-                            </select>
+                            <label class="form-label">Contract Term: <span id="contractTermValue">2</span> years</label>
+                            <input type="range" class="form-control" id="contractTerm" min="0" max="5" value="2" oninput="updateScenarios()">
                         </div>
                     </div>
                     <div id="scenarioResults">
@@ -1250,20 +1238,65 @@
             <!-- PQ Ratio Calculator -->
             <div class="card">
                 <h3>Price-Quality Ratio Calculator</h3>
-                <div class="grid grid-2">
+                <div class="grid grid-3">
                     <div>
                         <h4>Weighting Factors</h4>
                         <div class="form-group">
-                            <label class="form-label">Content Quality (Current: 40%)</label>
-                            <input type="range" class="form-control" min="0" max="100" value="40" id="qualityWeight" onchange="updatePQRatio()">
+                            <label class="form-label">Content Quality: <span id="qualityWeightLabel">40</span>%</label>
+                            <input type="range" class="form-control" min="0" max="100" value="40" id="qualityWeight" oninput="updatePQRatio()">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Cost Effectiveness (Current: 35%)</label>
-                            <input type="range" class="form-control" min="0" max="100" value="35" id="costWeight" onchange="updatePQRatio()">
+                            <label class="form-label">Cost Effectiveness: <span id="costWeightLabel">35</span>%</label>
+                            <input type="range" class="form-control" min="0" max="100" value="35" id="costWeight" oninput="updatePQRatio()">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">User Experience (Current: 25%)</label>
-                            <input type="range" class="form-control" min="0" max="100" value="25" id="uxWeight" onchange="updatePQRatio()">
+                            <label class="form-label">User Experience: <span id="uxWeightLabel">25</span>%</label>
+                            <input type="range" class="form-control" min="0" max="100" value="25" id="uxWeight" oninput="updatePQRatio()">
+                        </div>
+                    </div>
+                    <div class="provider-inputs">
+                        <h4>Provider Metrics</h4>
+                        <!-- Gartner -->
+                        <h5>Gartner</h5>
+                        <div class="form-group">
+                            <label class="form-label">Price ($)</label>
+                            <input type="number" class="form-control" id="gartnerPrice" value="2400000" oninput="updatePQRatio()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Quality Score: <span id="gartnerQualityLabel">85</span></label>
+                            <input type="range" class="form-control" id="gartnerQuality" value="85" oninput="updatePQRatio()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">UX Score: <span id="gartnerUxLabel">80</span></label>
+                            <input type="range" class="form-control" id="gartnerUx" value="80" oninput="updatePQRatio()">
+                        </div>
+                        <!-- Forrester -->
+                        <h5>Forrester</h5>
+                        <div class="form-group">
+                            <label class="form-label">Price ($)</label>
+                            <input type="number" class="form-control" id="forresterPrice" value="2100000" oninput="updatePQRatio()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Quality Score: <span id="forresterQualityLabel">80</span></label>
+                            <input type="range" class="form-control" id="forresterQuality" value="80" oninput="updatePQRatio()">
+                        </div>
+                         <div class="form-group">
+                            <label class="form-label">UX Score: <span id="forresterUxLabel">85</span></label>
+                            <input type="range" class="form-control" id="forresterUx" value="85" oninput="updatePQRatio()">
+                        </div>
+                        <!-- IDC -->
+                        <h5>IDC</h5>
+                        <div class="form-group">
+                            <label class="form-label">Price ($)</label>
+                            <input type="number" class="form-control" id="idcPrice" value="1800000" oninput="updatePQRatio()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Quality Score: <span id="idcQualityLabel">75</span></label>
+                            <input type="range" class="form-control" id="idcQuality" value="75" oninput="updatePQRatio()">
+                        </div>
+                         <div class="form-group">
+                            <label class="form-label">UX Score: <span id="idcUxLabel">70</span></label>
+                            <input type="range" class="form-control" id="idcUx" value="70" oninput="updatePQRatio()">
                         </div>
                     </div>
                     <div>
@@ -1277,21 +1310,7 @@
                                 </tr>
                             </thead>
                             <tbody id="pqTable">
-                                <tr>
-                                    <td><strong>Gartner</strong></td>
-                                    <td><strong>8.4</strong></td>
-                                    <td><span class="badge badge-success">#1</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Forrester</td>
-                                    <td>7.8</td>
-                                    <td><span class="badge badge-warning">#2</span></td>
-                                </tr>
-                                <tr>
-                                    <td>IDC</td>
-                                    <td>7.2</td>
-                                    <td><span class="badge badge-warning">#3</span></td>
-                                </tr>
+                                <!-- Calculated results will be inserted here -->
                             </tbody>
                         </table>
                     </div>
@@ -1592,31 +1611,30 @@
             const seats = document.getElementById('seatStrategy').value;
             const term = document.getElementById('contractTerm').value;
 
+            // Update the value displays
+            document.getElementById('budgetConstraintValue').textContent = '$' + new Intl.NumberFormat().format(budget);
+            document.getElementById('seatStrategyValue').textContent = seats;
+            document.getElementById('contractTermValue').textContent = term;
+
             const results = document.getElementById('scenarioResults');
 
-            let recommendation = '';
-            let savings = '';
-            let risk = '';
+            let recommendation = `Budget: $${new Intl.NumberFormat().format(budget)}, Seats: ${seats}, Term: ${term} years`;
+            let savings = '$' + new Intl.NumberFormat().format(2400000 - (budget/5 * term) - (seats * 100 * term)); // Simplified savings calculation
+            let risk = 'Medium';
 
-            if (budget === 'reduced' && seats === 'optimize') {
-                recommendation = 'Optimize seats with budget reduction';
-                savings = '$580K annually';
-                risk = 'Low';
-            } else if (seats === 'optimize') {
-                recommendation = 'Optimize seat allocation';
-                savings = '$420K annually';
-                risk = 'Low';
+            if (seats < 600) {
+                risk = 'High';
+            } else if (seats < 800) {
+                risk = 'Medium';
             } else {
-                recommendation = 'Maintain current structure';
-                savings = '$120K annually';
-                risk = 'Very Low';
+                risk = 'Low';
             }
 
             results.innerHTML = `
                 <h4>Scenario Analysis Results</h4>
-                <div class="alert alert-success">
-                    <strong>Recommended:</strong> ${term}-year contract with ${recommendation.toLowerCase()}
-                    <br><strong>Savings:</strong> ${savings}
+                <div class="alert alert-info">
+                    <strong>Scenario:</strong> ${recommendation}
+                    <br><strong>Estimated Savings:</strong> ${savings}
                     <br><strong>Risk Level:</strong> ${risk}
                 </div>
                 <div class="chart-placeholder" style="height: 200px;">
@@ -1630,29 +1648,74 @@
 
         // PQ Ratio Updates
         function updatePQRatio() {
-            const quality = document.getElementById('qualityWeight').value;
-            const cost = document.getElementById('costWeight').value;
-            const ux = document.getElementById('uxWeight').value;
+            // Update weight labels
+            const qualityWeight = parseInt(document.getElementById('qualityWeight').value);
+            const costWeight = parseInt(document.getElementById('costWeight').value);
+            const uxWeight = parseInt(document.getElementById('uxWeight').value);
+            document.getElementById('qualityWeightLabel').textContent = qualityWeight;
+            document.getElementById('costWeightLabel').textContent = costWeight;
+            document.getElementById('uxWeightLabel').textContent = uxWeight;
 
-            // Simulate recalculation
+            const providers = ['gartner', 'forrester', 'idc'];
+            const providerData = {};
+
+            let minPrice = Infinity, maxPrice = -Infinity;
+
+            providers.forEach(p => {
+                const price = parseInt(document.getElementById(`${p}Price`).value);
+                if (price < minPrice) minPrice = price;
+                if (price > maxPrice) maxPrice = price;
+
+                providerData[p] = {
+                    name: p.charAt(0).toUpperCase() + p.slice(1),
+                    price: price,
+                    quality: parseInt(document.getElementById(`${p}Quality`).value),
+                    ux: parseInt(document.getElementById(`${p}Ux`).value),
+                };
+                // Update labels for provider scores
+                document.getElementById(`${p}QualityLabel`).textContent = providerData[p].quality;
+                document.getElementById(`${p}UxLabel`).textContent = providerData[p].ux;
+            });
+
+            const results = [];
+            providers.forEach(p => {
+                const data = providerData[p];
+                // Normalize price: higher is worse, so we invert the score.
+                const priceScore = (maxPrice - data.price) / (maxPrice - minPrice) * 100;
+
+                const totalWeight = qualityWeight + costWeight + uxWeight;
+                if (totalWeight === 0) {
+                    results.push({ name: data.name, score: 0 });
+                    return;
+                }
+
+                const score = (
+                    (data.quality * qualityWeight) +
+                    (priceScore * costWeight) +
+                    (data.ux * uxWeight)
+                ) / totalWeight;
+
+                results.push({ name: data.name, score: score.toFixed(2) });
+            });
+
+            results.sort((a, b) => b.score - a.score);
+
             const table = document.getElementById('pqTable');
-            table.innerHTML = `
-                <tr>
-                    <td><strong>Gartner</strong></td>
-                    <td><strong>8.4</strong></td>
-                    <td><span class="badge badge-success">#1</span></td>
-                </tr>
-                <tr>
-                    <td>Forrester</td>
-                    <td>7.8</td>
-                    <td><span class="badge badge-warning">#2</span></td>
-                </tr>
-                <tr>
-                    <td>IDC</td>
-                    <td>7.2</td>
-                    <td><span class="badge badge-warning">#3</span></td>
-                </tr>
-            `;
+            table.innerHTML = '';
+            results.forEach((r, index) => {
+                const rank = index + 1;
+                let badgeClass = 'badge-success';
+                if (rank === 2) badgeClass = 'badge-warning';
+                if (rank > 2) badgeClass = 'badge-danger';
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${r.name}</strong></td>
+                    <td><strong>${r.score}</strong></td>
+                    <td><span class="badge ${badgeClass}">#${rank}</span></td>
+                `;
+                table.appendChild(row);
+            });
         }
 
         // Report Template Updates
@@ -1709,6 +1772,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Any initialization code can go here
             console.log('Gartner Contract Evaluation Platform loaded successfully');
+            updatePQRatio();
+            updateScenarios();
         });
     </script>
 </body>
