@@ -1498,15 +1498,60 @@
             return new Promise(resolve => {
                 setTimeout(() => {
                     const responses = {
-                        'roi': 'The departments with highest ROI are: 1) Strategy Team (4.2:1 ratio), 2) IT Department (3.8:1 ratio), 3) Business Development (3.4:1 ratio). Strategy team shows exceptional value due to high-impact decision support usage.',
-                        'alternatives': 'Survey data shows 34% prefer alternatives: Forrester (18%), IDC (12%), McKinsey (4%). Main reasons: cost concerns (45%), content overlap (23%), user interface preferences (32%).',
-                        'trends': 'Cost trends show 12% increase over 3 years, but value per dollar has improved 23%. Usage peaks during Q1 budget cycles and Q3 strategic planning periods.',
-                        'content': 'Market forecasts drive 34% of perceived value, competitive analysis 28%, technology trends 22%, and strategic frameworks 16%. IT and strategy departments heavily favor forecasts.',
-                        'benchmarks': 'Versus industry: Utilization 14% above average (73% vs 64%), satisfaction 11% higher (4.2 vs 3.8), cost efficiency 23% better ($285 vs $370 per insight).'
+                        'gartner vs forrester vs idc': `
+                            <p>Here is a comparison of Gartner, Forrester, and IDC based on our analysis:</p>
+                            <img src="https://placehold.co/600x250/E2E8F0/475569?text=Provider+Comparison+Chart" alt="Comparison Chart" style="width: 100%; border-radius: 6px; margin-top: 10px;">
+                            <table class="table" style="margin-top: 15px; font-size: 0.9rem;">
+                                <thead>
+                                    <tr><th>Metric</th><th>Gartner</th><th>Forrester</th><th>IDC</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><strong>Cost per Report</strong></td><td>$632</td><td>$580</td><td>$710</td></tr>
+                                    <tr><td><strong>Cost per Analyst Call</strong></td><td>$1,200</td><td>$1,500</td><td>$1,350</td></tr>
+                                    <tr><td><strong>Best For</strong></td><td>Broad IT Strategy</td><td>Customer Experience</td><td>Market Sizing</td></tr>
+                                </tbody>
+                            </table>
+                        `,
+                        'top users': `
+                            <p>Based on the data, here are the top 5 users by interaction volume:</p>
+                            <img src="https://placehold.co/600x250/E2E8F0/475569?text=Top+User+Usage+Distribution" alt="Top User Chart" style="width: 100%; border-radius: 6px; margin-top: 10px;">
+                            <ol style="padding-left: 20px; margin-top: 15px;">
+                                <li><strong>Ace Tan (CISO):</strong> 1,810 interactions (91/month)</li>
+                                <li><strong>Dom Chan:</strong> 590 interactions (30/month)</li>
+                                <li><strong>YZ Feng (CDAO):</strong> 322 interactions (16/month)</li>
+                                <li><strong>Chan Vivi:</strong> 261 interactions (13/month)</li>
+                                <li><strong>Wang JH:</strong> 222 interactions (11/month)</li>
+                            </ol>
+                        `,
+                        'lowest usage users': `
+                            <p>Here are some of the users with the lowest engagement. This may represent an opportunity to recover licenses:</p>
+                            <img src="https://placehold.co/600x250/E2E8F0/475569?text=Low+Usage+User+Activity" alt="Low Usage Chart" style="width: 100%; border-radius: 6px; margin-top: 10px;">
+                            <ul style="padding-left: 20px; margin-top: 15px;">
+                                <li><strong>Andrew Ng:</strong> 43 interactions (documents only)</li>
+                                <li><strong>Frank Liew:</strong> 36 interactions (documents only)</li>
+                                <li><strong>Lee HW:</strong> 45 interactions (documents only)</li>
+                                <li><strong>Farmer Nield:</strong> 97 interactions (documents only)</li>
+                                <li>Over 15 users have fewer than 50 total interactions.</li>
+                            </ul>
+                        `,
+                        'optimise': `
+                            <p>To optimize for a $2 million budget, I recommend a tiered access model. This strategy maintains service for high-value users while significantly reducing costs.</p>
+                            <img src="https://placehold.co/600x250/E2E8F0/475569?text=Budget+Optimization+Plan" alt="Budget Chart" style="width: 100%; border-radius: 6px; margin-top: 10px;">
+                            <h5 style="margin-top: 15px;">Recommended Tiered Model:</h5>
+                            <ul style="padding-left: 20px; margin-top: 10px;">
+                                <li><strong>Premium Tier (5 users):</strong> Full access for key leaders like Ace Tan, Dom Chan.</li>
+                                <li><strong>Standard Tier (8 users):</strong> Access for active users with regular needs.</li>
+                                <li><strong>Basic Tier (10 users):</strong> Limited access for occasional research.</li>
+                                <li><strong>Remove (15 users):</strong> Reclaim licenses from users with minimal or no activity.</li>
+                            </ul>
+                            <p style="margin-top: 10px;">This approach could lead to projected annual savings of over <strong>$1.2M</strong>, fitting within the new budget while retaining core value.</p>
+                        `
                     };
 
+                    const questionText = question.toLowerCase();
                     for (let key in responses) {
-                        if (question.toLowerCase().includes(key)) {
+                        // A simple keyword check. For a real bot, you'd use more sophisticated NLP.
+                        if (questionText.includes(key)) {
                             resolve(responses[key]);
                             return;
                         }
