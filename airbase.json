@@ -1,0 +1,8 @@
+{
+  "name": "my-portal",
+  "framework": "nextjs-standalone",
+  "scripts": {
+    "build": "npm run build",
+    "start": "node .next/standalone/server.js"
+  }
+}

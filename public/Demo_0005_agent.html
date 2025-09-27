@@ -367,6 +367,9 @@
             <h1><i class="fas fa-chart-line"></i> Gartner Contract Evaluation Platform</h1>
             <p>Intelligent analytics for procurement decision-making</p>
         </div>
+		<div class="container" style="text-align: right;">
+			<p>All Right Reserved CET dealBreaker Team 2025</p>
+		</div>
     </header>
 
     <div class="container">
@@ -401,7 +404,7 @@
                     <div class="metric-value">68%</div>
                     <div class="metric-label">Active Utilization Rate</div>
                 </div>
-                <div class="metric-card" style="background: linear-gradient(135deg, #dc2626, #ef4444);">
+                <div class="metric-card">
                     <div class="metric-value">$632</div>
                     <div class="metric-label">Cost per Download</div>
                 </div>
@@ -415,8 +418,8 @@
             <div class="card">
                 <h3>📅 Contract Timeline & Data Coverage</h3>
                 <div class="alert alert-info" style="margin-bottom: 20px;">
-                    <strong>Contract Period:</strong> July 2023 - July 2026 (36 months) |
-                    <strong>Data Available:</strong> Aug 2023 - Mar 2025 (20 months) |
+                    <strong>Contract Period:</strong> July 2023 - July 2026 (36 months) | 
+                    <strong>Data Available:</strong> Aug 2023 - Mar 2025 (20 months) | 
                     <strong>Remaining:</strong> Apr 2025 - Jul 2026 (16 months)
                 </div>
                 <div class="grid grid-3">
@@ -560,7 +563,7 @@
                 <div class="alert alert-warning" style="margin-bottom: 20px;">
                     <strong>⚠️ Extreme Usage Outliers Detected:</strong> Significant variance in user behavior patterns requiring immediate attention
                 </div>
-
+                
                 <div class="grid grid-2">
                     <div>
                         <h4>📊 Usage Distribution Analysis</h4>
@@ -936,7 +939,7 @@
                             • High engagement: 73% utilization rate vs 64% industry average<br>
                             • Users actively consume content (avg 8.2 downloads/month per active user)
                         </div>
-
+                        
                         <h4>Does Value Justify Cost?</h4>
                         <div class="alert alert-success">
                             <strong>✅ YES - Positive ROI Demonstrated</strong><br>
@@ -953,7 +956,7 @@
                             • Right-size to 620 active seats from current 847<br>
                             • Maintain service quality while reducing costs
                         </div>
-
+                        
                         <div style="margin-top: 20px;">
                             <h5>Recommended Actions:</h5>
                             <ul style="margin: 10px 0; padding-left: 20px;">
@@ -1132,7 +1135,7 @@
                         <li><strong>Usage Insights:</strong> Clear power user segments suggest tiered purchasing strategy</li>
                         <li><strong>Purchasing Strategy:</strong> 2-year tiered contract delivers optimal value and flexibility</li>
                     </ul>
-
+                    
                     <h4 style="color: #1e40af; margin: 20px 0 15px 0;">Management Recommendation:</h4>
                     <div class="alert alert-success" style="margin: 0;">
                         <strong>PROCEED with optimized Gartner renewal</strong><br>
@@ -1151,14 +1154,14 @@
                 <div class="card">
                     <h3>Quick Questions</h3>
                     <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <button class="btn btn-secondary" onclick="askQuestion('Show me departments with highest ROI')">
-                            Show me departments with highest ROI
+                        <button class="btn btn-secondary" style="background-color: blue;" onclick="askQuestion('Show me Top 5 Users with highest ROI')">
+                            Show me Top 5 Users with highest ROI
                         </button>
                         <button class="btn btn-secondary" onclick="askQuestion('What alternatives do users prefer?')">
                             What alternatives do users prefer?
                         </button>
-                        <button class="btn btn-secondary" onclick="askQuestion('Analyze cost trends over time')">
-                            Analyze cost trends over time
+                        <button class="btn btn-secondary" style="background-color: blue;" onclick="askQuestion('Low Usage Pattern Analysis')">
+                            Low Usage Pattern Analysis
                         </button>
                         <button class="btn btn-secondary" onclick="askQuestion('Which content types drive most value?')">
                             Which content types drive most value?
@@ -1206,28 +1209,16 @@
                 <div class="grid grid-2">
                     <div>
                         <div class="form-group">
-                            <label class="form-label">Budget Constraint</label>
-                            <select class="form-control" id="budgetConstraint" onchange="updateScenarios()">
-                                <option value="current">Current Budget ($2.4M)</option>
-                                <option value="reduced">10% Reduction ($2.16M)</option>
-                                <option value="increased">5% Increase ($2.52M)</option>
-                            </select>
+                            <label class="form-label">Budget Constraint: <span id="budgetConstraintValue">$5,000,000</span></label>
+                            <input type="range" class="form-control" id="budgetConstraint" min="0" max="10000000" value="5000000" oninput="updateScenarios()">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Seat Allocation Strategy</label>
-                            <select class="form-control" id="seatStrategy" onchange="updateScenarios()">
-                                <option value="maintain">Maintain Current (847 seats)</option>
-                                <option value="optimize">Optimize Based on Usage (620 seats)</option>
-                                <option value="expand">Expand Coverage (950 seats)</option>
-                            </select>
+                            <label class="form-label">Seat Allocation Strategy: <span id="seatStrategyValue">500</span> seats</label>
+                            <input type="range" class="form-control" id="seatStrategy" min="0" max="1000" value="500" oninput="updateScenarios()">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Contract Term</label>
-                            <select class="form-control" id="contractTerm" onchange="updateScenarios()">
-                                <option value="1">1 Year</option>
-                                <option value="2" selected>2 Years</option>
-                                <option value="3">3 Years</option>
-                            </select>
+                            <label class="form-label">Contract Term: <span id="contractTermValue">2</span> years</label>
+                            <input type="range" class="form-control" id="contractTerm" min="0" max="5" value="2" oninput="updateScenarios()">
                         </div>
                     </div>
                     <div id="scenarioResults">
@@ -1250,20 +1241,65 @@
             <!-- PQ Ratio Calculator -->
             <div class="card">
                 <h3>Price-Quality Ratio Calculator</h3>
-                <div class="grid grid-2">
+                <div class="grid grid-3">
                     <div>
                         <h4>Weighting Factors</h4>
                         <div class="form-group">
-                            <label class="form-label">Content Quality (Current: 40%)</label>
-                            <input type="range" class="form-control" min="0" max="100" value="40" id="qualityWeight" onchange="updatePQRatio()">
+                            <label class="form-label">Content Quality: <span id="qualityWeightLabel">40</span>%</label>
+                            <input type="range" class="form-control" min="0" max="100" value="40" id="qualityWeight" oninput="updatePQRatio()">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Cost Effectiveness (Current: 35%)</label>
-                            <input type="range" class="form-control" min="0" max="100" value="35" id="costWeight" onchange="updatePQRatio()">
+                            <label class="form-label">Cost Effectiveness: <span id="costWeightLabel">35</span>%</label>
+                            <input type="range" class="form-control" min="0" max="100" value="35" id="costWeight" oninput="updatePQRatio()">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">User Experience (Current: 25%)</label>
-                            <input type="range" class="form-control" min="0" max="100" value="25" id="uxWeight" onchange="updatePQRatio()">
+                            <label class="form-label">User Experience: <span id="uxWeightLabel">25</span>%</label>
+                            <input type="range" class="form-control" min="0" max="100" value="25" id="uxWeight" oninput="updatePQRatio()">
+                        </div>
+                    </div>
+                    <div class="provider-inputs">
+                        <h4>Provider Metrics</h4>
+                        <!-- Gartner -->
+                        <h5>Gartner</h5>
+                        <div class="form-group">
+                            <label class="form-label">Price ($)</label>
+                            <input type="number" class="form-control" id="gartnerPrice" value="2400000" oninput="updatePQRatio()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Quality Score: <span id="gartnerQualityLabel">85</span></label>
+                            <input type="range" class="form-control" id="gartnerQuality" value="85" oninput="updatePQRatio()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">UX Score: <span id="gartnerUxLabel">80</span></label>
+                            <input type="range" class="form-control" id="gartnerUx" value="80" oninput="updatePQRatio()">
+                        </div>
+                        <!-- Forrester -->
+                        <h5>Forrester</h5>
+                        <div class="form-group">
+                            <label class="form-label">Price ($)</label>
+                            <input type="number" class="form-control" id="forresterPrice" value="2100000" oninput="updatePQRatio()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Quality Score: <span id="forresterQualityLabel">80</span></label>
+                            <input type="range" class="form-control" id="forresterQuality" value="80" oninput="updatePQRatio()">
+                        </div>
+                         <div class="form-group">
+                            <label class="form-label">UX Score: <span id="forresterUxLabel">85</span></label>
+                            <input type="range" class="form-control" id="forresterUx" value="85" oninput="updatePQRatio()">
+                        </div>
+                        <!-- IDC -->
+                        <h5>IDC</h5>
+                        <div class="form-group">
+                            <label class="form-label">Price ($)</label>
+                            <input type="number" class="form-control" id="idcPrice" value="1800000" oninput="updatePQRatio()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Quality Score: <span id="idcQualityLabel">75</span></label>
+                            <input type="range" class="form-control" id="idcQuality" value="75" oninput="updatePQRatio()">
+                        </div>
+                         <div class="form-group">
+                            <label class="form-label">UX Score: <span id="idcUxLabel">70</span></label>
+                            <input type="range" class="form-control" id="idcUx" value="70" oninput="updatePQRatio()">
                         </div>
                     </div>
                     <div>
@@ -1277,21 +1313,7 @@
                                 </tr>
                             </thead>
                             <tbody id="pqTable">
-                                <tr>
-                                    <td><strong>Gartner</strong></td>
-                                    <td><strong>8.4</strong></td>
-                                    <td><span class="badge badge-success">#1</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Forrester</td>
-                                    <td>7.8</td>
-                                    <td><span class="badge badge-warning">#2</span></td>
-                                </tr>
-                                <tr>
-                                    <td>IDC</td>
-                                    <td>7.2</td>
-                                    <td><span class="badge badge-warning">#3</span></td>
-                                </tr>
+                                <!-- Calculated results will be inserted here -->
                             </tbody>
                         </table>
                     </div>
@@ -1328,7 +1350,7 @@
                 <div class="form-group">
                     <label class="form-label">Report Type</label>
                     <select class="form-control" id="reportType" onchange="updateReportTemplate()">
-                        <option value="tac-b">TAC "B" Approval Report</option>
+                        <option value="tac-b">TEC "B" Approval Report</option>
                         <option value="renewal">Contract Renewal Analysis</option>
                         <option value="comparison">Provider Comparison Study</option>
                     </select>
@@ -1352,14 +1374,14 @@
             <div class="card">
                 <h3>Report Preview</h3>
                 <div id="reportPreview" style="border: 1px solid var(--border); padding: 20px; background: var(--surface); border-radius: 6px;">
-                    <h2 style="color: var(--primary); margin-bottom: 20px;">Technical Assistance Contract "B" - Gartner Research Services</h2>
+                    <h2 style="color: var(--primary); margin-bottom: 20px;">Tender Evaluation Committee "B" - Gartner Research Services</h2>
 
                     <h3>Executive Summary</h3>
                     <p>Based on comprehensive analysis of usage data, user feedback, and market comparisons, this report recommends continuation of Gartner research services with optimized seat allocation. The analysis demonstrates strong ROI with a 4.2:1 return on investment and high user satisfaction scores.</p>
 
                     <h3>Key Findings</h3>
                     <ul>
-                        <li><strong>Utilization:</strong> 73% active usage rate across 847 allocated seats</li>
+                        <li><strong>Utilization:</strong> 73% active usage rate across 38 allocated seats</li>
                         <li><strong>Value Generation:</strong> $3.4M in quantified benefits against $2.4M cost</li>
                         <li><strong>User Satisfaction:</strong> 4.2/5 average rating with 78% finding service useful</li>
                         <li><strong>Cost Efficiency:</strong> 23% below industry average cost per insight</li>
@@ -1367,7 +1389,7 @@
 
                     <h3>Recommendation</h3>
                     <div class="alert alert-success">
-                        <strong>Approve 2-year contract renewal with optimized 620 seat allocation</strong>
+                        <strong>Approve 2-year contract renewal with optimized 38 seat allocation</strong>
                         <br>Projected annual savings: $420,000
                         <br>Maintained service quality with improved cost efficiency
                     </div>
@@ -1500,7 +1522,7 @@
                     const responses = {
                         'gartner vs forrester vs idc': `
                             <p>Here is a comparison of Gartner, Forrester, and IDC based on our analysis:</p>
-                            <img src="https://swe-dev-public-assets.s3.amazonaws.com/images/621175b9-93e1-4c17-a066-22a362a498f3.png" alt="Comparison Chart" style="width: 100%; border-radius: 6px; margin-top: 10px;">
+                            <img src="q1_vendor_comparison.png" alt="Comparison Chart" style="width: 50%; border-radius: 6px; margin-top: 10px;">
                             <table class="table" style="margin-top: 15px; font-size: 0.9rem;">
                                 <thead>
                                     <tr><th>Metric</th><th>Gartner</th><th>Forrester</th><th>IDC</th></tr>
@@ -1512,9 +1534,9 @@
                                 </tbody>
                             </table>
                         `,
-                        'top users': `
+                        'top 5 users': `
                             <p>Based on the data, here are the top 5 users by interaction volume:</p>
-                            <img src="https://placehold.co/600x250/E2E8F0/475569?text=Top+User+Usage+Distribution" alt="Top User Chart" style="width: 100%; border-radius: 6px; margin-top: 10px;">
+                            <img src="top_5_users.png" alt="Top User Chart" style="width: 50%; border-radius: 6px; margin-top: 10px;">
                             <ol style="padding-left: 20px; margin-top: 15px;">
                                 <li><strong>Ace Tan (CISO):</strong> 1,810 interactions (91/month)</li>
                                 <li><strong>Dom Chan:</strong> 590 interactions (30/month)</li>
@@ -1523,9 +1545,9 @@
                                 <li><strong>Wang JH:</strong> 222 interactions (11/month)</li>
                             </ol>
                         `,
-                        'lowest usage users': `
+                        'low usage': `
                             <p>Here are some of the users with the lowest engagement. This may represent an opportunity to recover licenses:</p>
-                            <img src="https://placehold.co/600x250/E2E8F0/475569?text=Low+Usage+User+Activity" alt="Low Usage Chart" style="width: 100%; border-radius: 6px; margin-top: 10px;">
+                            <img src="low_usage.png" alt="Low Usage Chart" style="width: 50%; border-radius: 6px; margin-top: 10px;">
                             <ul style="padding-left: 20px; margin-top: 15px;">
                                 <li><strong>Andrew Ng:</strong> 43 interactions (documents only)</li>
                                 <li><strong>Frank Liew:</strong> 36 interactions (documents only)</li>
@@ -1534,9 +1556,9 @@
                                 <li>Over 15 users have fewer than 50 total interactions.</li>
                             </ul>
                         `,
-                        'optimise': `
+                        '2mil optimise': `
                             <p>To optimize for a $2 million budget, I recommend a tiered access model. This strategy maintains service for high-value users while significantly reducing costs.</p>
-                            <img src="https://swe-dev-public-assets.s3.amazonaws.com/images/30c7493a-8c54-47e3-9828-6878b6631b53.png" alt="Budget Chart" style="width: 100%; border-radius: 6px; margin-top: 10px;">
+                            <img src="q4_budget_allocation.png" alt="Budget Chart" style="width: 50%; border-radius: 6px; margin-top: 10px;">
                             <h5 style="margin-top: 15px;">Recommended Tiered Model:</h5>
                             <ul style="padding-left: 20px; margin-top: 10px;">
                                 <li><strong>Premium Tier (5 users):</strong> Full access for key leaders like Ace Tan, Dom Chan.</li>
@@ -1592,31 +1614,30 @@
             const seats = document.getElementById('seatStrategy').value;
             const term = document.getElementById('contractTerm').value;
 
+            // Update the value displays
+            document.getElementById('budgetConstraintValue').textContent = '$' + new Intl.NumberFormat().format(budget);
+            document.getElementById('seatStrategyValue').textContent = seats;
+            document.getElementById('contractTermValue').textContent = term;
+
             const results = document.getElementById('scenarioResults');
 
-            let recommendation = '';
-            let savings = '';
-            let risk = '';
+            let recommendation = `Budget: $${new Intl.NumberFormat().format(budget)}, Seats: ${seats}, Term: ${term} years`;
+            let savings = '$' + new Intl.NumberFormat().format(2400000 - (budget/5 * term) - (seats * 100 * term)); // Simplified savings calculation
+            let risk = 'Medium';
 
-            if (budget === 'reduced' && seats === 'optimize') {
-                recommendation = 'Optimize seats with budget reduction';
-                savings = '$580K annually';
-                risk = 'Low';
-            } else if (seats === 'optimize') {
-                recommendation = 'Optimize seat allocation';
-                savings = '$420K annually';
-                risk = 'Low';
+            if (seats < 600) {
+                risk = 'High';
+            } else if (seats < 800) {
+                risk = 'Medium';
             } else {
-                recommendation = 'Maintain current structure';
-                savings = '$120K annually';
-                risk = 'Very Low';
+                risk = 'Low';
             }
 
             results.innerHTML = `
                 <h4>Scenario Analysis Results</h4>
-                <div class="alert alert-success">
-                    <strong>Recommended:</strong> ${term}-year contract with ${recommendation.toLowerCase()}
-                    <br><strong>Savings:</strong> ${savings}
+                <div class="alert alert-info">
+                    <strong>Scenario:</strong> ${recommendation}
+                    <br><strong>Estimated Savings:</strong> ${savings}
                     <br><strong>Risk Level:</strong> ${risk}
                 </div>
                 <div class="chart-placeholder" style="height: 200px;">
@@ -1630,29 +1651,74 @@
 
         // PQ Ratio Updates
         function updatePQRatio() {
-            const quality = document.getElementById('qualityWeight').value;
-            const cost = document.getElementById('costWeight').value;
-            const ux = document.getElementById('uxWeight').value;
+            // Update weight labels
+            const qualityWeight = parseInt(document.getElementById('qualityWeight').value);
+            const costWeight = parseInt(document.getElementById('costWeight').value);
+            const uxWeight = parseInt(document.getElementById('uxWeight').value);
+            document.getElementById('qualityWeightLabel').textContent = qualityWeight;
+            document.getElementById('costWeightLabel').textContent = costWeight;
+            document.getElementById('uxWeightLabel').textContent = uxWeight;
 
-            // Simulate recalculation
+            const providers = ['gartner', 'forrester', 'idc'];
+            const providerData = {};
+
+            let minPrice = Infinity, maxPrice = -Infinity;
+
+            providers.forEach(p => {
+                const price = parseInt(document.getElementById(`${p}Price`).value);
+                if (price < minPrice) minPrice = price;
+                if (price > maxPrice) maxPrice = price;
+
+                providerData[p] = {
+                    name: p.charAt(0).toUpperCase() + p.slice(1),
+                    price: price,
+                    quality: parseInt(document.getElementById(`${p}Quality`).value),
+                    ux: parseInt(document.getElementById(`${p}Ux`).value),
+                };
+                // Update labels for provider scores
+                document.getElementById(`${p}QualityLabel`).textContent = providerData[p].quality;
+                document.getElementById(`${p}UxLabel`).textContent = providerData[p].ux;
+            });
+
+            const results = [];
+            providers.forEach(p => {
+                const data = providerData[p];
+                // Normalize price: higher is worse, so we invert the score.
+                const priceScore = (maxPrice - data.price) / (maxPrice - minPrice) * 100;
+
+                const totalWeight = qualityWeight + costWeight + uxWeight;
+                if (totalWeight === 0) {
+                    results.push({ name: data.name, score: 0 });
+                    return;
+                }
+
+                const score = (
+                    (data.quality * qualityWeight) +
+                    (priceScore * costWeight) +
+                    (data.ux * uxWeight)
+                ) / totalWeight;
+
+                results.push({ name: data.name, score: score.toFixed(2) });
+            });
+
+            results.sort((a, b) => b.score - a.score);
+
             const table = document.getElementById('pqTable');
-            table.innerHTML = `
-                <tr>
-                    <td><strong>Gartner</strong></td>
-                    <td><strong>8.4</strong></td>
-                    <td><span class="badge badge-success">#1</span></td>
-                </tr>
-                <tr>
-                    <td>Forrester</td>
-                    <td>7.8</td>
-                    <td><span class="badge badge-warning">#2</span></td>
-                </tr>
-                <tr>
-                    <td>IDC</td>
-                    <td>7.2</td>
-                    <td><span class="badge badge-warning">#3</span></td>
-                </tr>
-            `;
+            table.innerHTML = '';
+            results.forEach((r, index) => {
+                const rank = index + 1;
+                let badgeClass = 'badge-success';
+                if (rank === 2) badgeClass = 'badge-warning';
+                if (rank > 2) badgeClass = 'badge-danger';
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${r.name}</strong></td>
+                    <td><strong>${r.score}</strong></td>
+                    <td><span class="badge ${badgeClass}">#${rank}</span></td>
+                `;
+                table.appendChild(row);
+            });
         }
 
         // Report Template Updates
@@ -1665,7 +1731,7 @@
 
             switch(reportType) {
                 case 'tac-b':
-                    title = 'Technical Assistance Contract "B" - Gartner Research Services';
+                    title = 'Tender Evaluation Committee "B" - Gartner Research Services';
                     summary = 'Based on comprehensive analysis of usage data, user feedback, and market comparisons, this report recommends continuation of Gartner research services with optimized seat allocation.';
                     break;
                 case 'renewal':
@@ -1686,7 +1752,7 @@
 
                 <h3>Key Findings</h3>
                 <ul>
-                    <li><strong>Utilization:</strong> 73% active usage rate across 847 allocated seats</li>
+                    <li><strong>Utilization:</strong> 73% active usage rate across 38 allocated seats</li>
                     <li><strong>Value Generation:</strong> $3.4M in quantified benefits against $2.4M cost</li>
                     <li><strong>User Satisfaction:</strong> 4.2/5 average rating with 78% finding service useful</li>
                     <li><strong>Cost Efficiency:</strong> 23% below industry average cost per insight</li>
@@ -1694,7 +1760,7 @@
 
                 <h3>Recommendation</h3>
                 <div class="alert alert-success">
-                    <strong>Approve 2-year contract renewal with optimized 620 seat allocation</strong>
+                    <strong>Approve 2-year contract renewal with optimized 38 seat allocation</strong>
                     <br>Projected annual savings: $420,000
                     <br>Maintained service quality with improved cost efficiency
                 </div>
@@ -1709,7 +1775,29 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Any initialization code can go here
             console.log('Gartner Contract Evaluation Platform loaded successfully');
+            updatePQRatio();
+            updateScenarios();
         });
-    </script>
+    
+
+async function generateAIResponse(question) {
+  try {
+    const res = await fetch('/api/agent', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ message: question })
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      return `Sorry, I hit an error: ${err}`;
+    }
+    const data = await res.json();
+    return data.text || '(no response)';
+  } catch (e) {
+    return `Network error: ${e}`;
+  }
+}
+
+</script>
 </body>
 </html>
