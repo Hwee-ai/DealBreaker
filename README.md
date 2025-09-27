@@ -1,5 +1,5 @@
 # Vercel Next.js + Azure OpenAI (Edge + Streaming)
-
+Last Update : 27th Sep 2025  version 1.2.1
 ## Local dev
 1. `npm i`
 2. Copy `.env.example` → `.env.local` and set Azure values.
