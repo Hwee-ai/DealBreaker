@@ -16,12 +16,10 @@ export async function POST(req: NextRequest) {
           headers: { "content-type": "application/json", "api-key": process.env.AZURE_OPENAI_API_KEY! },
           body: JSON.stringify({
             messages: [
-              { role: "system", content: "You are a helpful assistant for a Singapore Government user portal." },
+              { role: "system", content: "You are a helpful assistant for a Singapore Government procurement and contract analysis portal." },
               { role: "user", content: message || "Hello" }
             ],
-            temperature: 0.2,
-            max_tokens: 300,
-            stream: true
+            temperature: 0.2, max_tokens: 400, stream: true
           })
         });
 
@@ -35,6 +33,7 @@ export async function POST(req: NextRequest) {
         const reader = resp.body.getReader();
         const decoder = new TextDecoder();
         let buffer = "";
+
         while (true) {
           const { value, done } = await reader.read();
           if (done) break;
@@ -61,7 +60,6 @@ export async function POST(req: NextRequest) {
             } catch {}
           }
         }
-
         controller.close();
       } catch (e: any) {
         controller.enqueue(encoder.encode(`event: error\ndata: ${JSON.stringify({ detail: String(e) })}\n\n`));
