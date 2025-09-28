@@ -1,14 +1,5 @@
 import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'DealBreaker Dashboard',
-  description: 'Overview Dashboard & Insight Engine (auto-updated from Excel)'
-};
-
+export const metadata: Metadata = { title: 'DealBreaker Dashboard v7', description: 'Overview & Insights - unified scaffold' };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <body style={{margin:0}}>{children}</body>
-    </html>
-  );
+  return (<html lang="en"><body style={{margin:0}}>{children}</body></html>);
 }

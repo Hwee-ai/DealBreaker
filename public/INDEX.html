@@ -396,8 +396,35 @@
         <div id="overview" class="tab-content active">
             <!-- Key Metrics (Updated) -->
             <div class="grid grid-4">
-                <div class="metric-card">
+
+                <div class="metric-card" style="background:#0d6efd;color:#fff">
+                    <div class="metric-value">$3.81M</div>
+                    <div class="metric-label">Total Contract Cost (GovTech + SNG)</div>
+                    <div class="metric-sub" style="font-size:12px;opacity:0.9">
+                        20‑month spend: <strong>$2.00M</strong> · 50.9% of APV $3.92M
+                    </div>
+                </div>
+                <div class="metric-card" style="background:#0d6efd;color:#fff">
+                    <div class="metric-value">38</div>
+                    <div class="metric-label">Licensed Users</div>
+                </div>
+                <div class="metric-card" style="background:#0d6efd;color:#fff">
                     <div class="metric-value">$620</div>
+                    <div class="metric-label">Cost per Download</div>
+                </div>
+                <div class="metric-card" style="background:#0d6efd;color:#fff">
+                    <div class="metric-value">3.44</div>
+                    <div class="metric-label">User Satisfaction (5 scale)</div>
+                </div>
+</div>
+                    <div class="metric-label">Licensed Users</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">68%</div>
+                    <div class="metric-label">Active Utilization Rate</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">$632</div>
                     <div class="metric-label">Cost per Download</div>
                 </div>
                 <div class="metric-card">
@@ -455,54 +482,16 @@
                 </div>
                 <div class="card">
                     <h3>👥 Top User Analysis (20-month data)</h3>
-                    <table class="table" style="font-size: 0.9rem;">
-                        <thead>
-                            <tr>
-                                <th>User</th>
-                                <th>Documents</th>
-                                <th>Calls</th>
-                                <th>Monthly Avg</th>
-                                <th>Projected Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Ace Tan (CISO)</strong></td>
-                                <td>1,749</td>
-                                <td>47</td>
-                                <td><strong>91/month</strong></td>
-                                <td>3,276</td>
-                            </tr>
-                            <tr>
-                                <td>Dom Chan</td>
-                                <td>559</td>
-                                <td>31</td>
-                                <td>30/month</td>
-                                <td>1,068</td>
-                            </tr>
-                            <tr>
-                                <td>YZ Feng (CDAO)</td>
-                                <td>300</td>
-                                <td>22</td>
-                                <td>16/month</td>
-                                <td>593</td>
-                            </tr>
-                            <tr>
-                                <td>Chan Vivi</td>
-                                <td>261</td>
-                                <td>0</td>
-                                <td>13/month</td>
-                                <td>473</td>
-                            </tr>
-                            <tr>
-                                <td>Wang JH</td>
-                                <td>209</td>
-                                <td>13</td>
-                                <td>11/month</td>
-                                <td>400</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <table class="table" style="font-size: 0.9rem;"><table class="table"><thead><tr><th>User</th><th>Downloads</th><th>Calls</th><th>Conferences</th><th>Monthly Avg</th><th>Total Interactions</th></tr></thead><tbody><tr><td>Ace Tan</td><td>1749</td><td>47</td><td>14</td><td>90.5/month</td><td>1810</td></tr>
+<tr><td>Dom Chan</td><td>559</td><td>31</td><td>1</td><td>29.6/month</td><td>591</td></tr>
+<tr><td>Yong NB</td><td>566</td><td>15</td><td>2</td><td>29.2/month</td><td>583</td></tr>
+<tr><td>Tee YY</td><td>530</td><td>8</td><td>1</td><td>27.0/month</td><td>539</td></tr>
+<tr><td>YZ Feng</td><td>300</td><td>22</td><td>7</td><td>16.4/month</td><td>329</td></tr>
+<tr><td>Chan Vivi</td><td>261</td><td>0</td><td>1</td><td>13.1/month</td><td>262</td></tr>
+<tr><td>Wang JH</td><td>209</td><td>13</td><td>0</td><td>11.1/month</td><td>222</td></tr>
+<tr><td>Lyn Tan</td><td>187</td><td>0</td><td>0</td><td>9.4/month</td><td>187</td></tr>
+<tr><td>Goh SW</td><td>184</td><td>0</td><td>2</td><td>9.3/month</td><td>186</td></tr>
+<tr><td>Sally </td><td>174</td><td>7</td><td>1</td><td>9.1/month</td><td>182</td></tr></tbody></table></table>
                     <p style="font-size: 0.85rem; color: #64748b; margin-top: 10px;">
                         Projected totals based on current 20-month usage patterns
                     </p>
@@ -914,7 +903,51 @@
 
         <!-- Tab 2: Insights Engine -->
         <div id="insights" class="tab-content">
-<div class="alert alert-light"><em>Data source: Soha-Usage-Price-updated.xlsx — this page auto-updated from the latest upload.</em></div>
+
+<!-- Auto Recommendations Start -->
+<div class="card" style="margin-top:12px">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <strong>🔧 Recommendations</strong>
+    <span class="small text-muted">Generated from latest Excel</span>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <h5 class="mb-2">Top Low‑Utilization Accounts</h5><ol style="padding-left:18px">
+          <li><strong>Ang Win</strong> (GTP-SMB) — 7 interactions</li>
+          <li><strong>Archer Lee</strong> (GTP-SMB) — 8 interactions</li>
+          <li><strong>Ong YH</strong> (GTP-SMB) — 13 interactions</li>
+          <li><strong>Jac Salim</strong> (GTP-SMB) — 14 interactions</li>
+          <li><strong>Rod</strong> (GTP-SMB) — 15 interactions</li>
+          <li><strong>Ong HJ</strong> (GTP-SMB) — 16 interactions</li>
+          <li><strong>Teo CP</strong> (GTP-SMB) — 26 interactions</li>
+          <li><strong>GPE Guo</strong> (GTP-SMB) — 31 interactions</li>
+          <li><strong>Lisa </strong> (GTP-SMB) — 33 interactions</li>
+          <li><strong>Frank Liew</strong> (GTP-SMB) — 36 interactions</li>
+        </ol></div>
+      <div class="col-md-6"><h5 class="mb-2">Seat Right‑Sizing</h5>
+        <p class="mb-1"><u>Remove Seats (no usage)</u></p><ul>
+        </ul><p class="mb-1"><u>Downgrade Candidates (high cost/interaction, bottom‑quartile usage)</u></p><ul>
+          <li><strong>Ang Win</strong> (GTP-SMB) — 7 interactions; ~$2,187 per interaction</li>
+          <li><strong>Archer Lee</strong> (GTP-SMB) — 8 interactions; ~$1,914 per interaction</li>
+          <li><strong>Ong YH</strong> (GTP-SMB) — 13 interactions; ~$1,178 per interaction</li>
+          <li><strong>Jac Salim</strong> (GTP-SMB) — 14 interactions; ~$1,093 per interaction</li>
+          <li><strong>Rod</strong> (GTP-SMB) — 15 interactions; ~$1,021 per interaction</li>
+        </ul></div>
+    </div><hr class="my-3" />
+    <h5 class="mb-2">🚩 At‑Risk Teams</h5><div class="table-responsive"><table class="table table-sm"><thead><tr><th>Team</th><th>Users</th><th>Zero‑Usage</th><th>Low‑Util</th><th>Zero%</th><th>Low%</th><th>Avg Interactions</th><th>Total Cost (3y)</th><th>Risk Score</th></tr></thead><tbody>
+      <tr><td>GTP-SMB</td><td>25</td><td>0</td><td>10</td><td>0%</td><td>40%</td><td>66.52</td><td>$382,700</td><td>0.16</td></tr>
+      <tr><td>CDAO</td><td>2</td><td>0</td><td>0</td><td>0%</td><td>0%</td><td>238.50</td><td>$497,626</td><td>0.00</td></tr>
+      <tr><td>CISO</td><td>1</td><td>0</td><td>0</td><td>0%</td><td>0%</td><td>1810.00</td><td>$301,500</td><td>0.00</td></tr>
+      <tr><td>EPL-Advisor</td><td>3</td><td>0</td><td>0</td><td>0%</td><td>0%</td><td>129.00</td><td>$707,166</td><td>0.00</td></tr>
+      <tr><td>EPL-Leader</td><td>2</td><td>0</td><td>0</td><td>0%</td><td>0%</td><td>89.50</td><td>$1,055,600</td><td>0.00</td></tr>
+      <tr><td>GITL-Advisor</td><td>3</td><td>0</td><td>0</td><td>0%</td><td>0%</td><td>410.00</td><td>$555,600</td><td>0.00</td></tr>
+      <tr><td>GITL-Reference</td><td>1</td><td>0</td><td>0</td><td>0%</td><td>0%</td><td>187.00</td><td>$104,000</td><td>0.00</td></tr>
+      <tr><td>Gartner for CIO</td><td>1</td><td>0</td><td>0</td><td>0%</td><td>0%</td><td>591.00</td><td>$218,167</td><td>0.00</td></tr>
+</tbody></table></div>
+    <div class="mt-2"><strong>Download CSVs:</strong> <a href="/data/low_utilization_accounts.csv" download>Low‑Util Accounts</a> · <a href="/data/remove_seats.csv" download>Remove Seats</a> · <a href="/data/downgrade_candidates.csv" download>Downgrade Candidates</a> · <a href="/data/at_risk_teams.csv" download>At‑Risk Teams</a></div>
+  </div></div><!-- Auto Recommendations End -->
+
             <div class="alert alert-info">
                 <i class="fas fa-info-circle"></i>
                 <strong>Management Summary:</strong> Key insights to guide procurement decisions and budget optimization
@@ -927,7 +960,7 @@
                     <div>
                         <h4>Are Users Getting Value?</h4>
                         <div class="alert alert-success">
-                            <strong>✅ YES — Avg usefulness score: <strong>3.44/5</strong> from <strong>36</strong> responses<br>
+                            <strong>✅ YES - Strong Value Perception</strong><br>
                             • 78% of users rate Gartner as "useful" or "very useful"<br>
                             • High engagement: 73% utilization rate vs 64% industry average<br>
                             • Users actively consume content (avg 8.2 downloads/month per active user)

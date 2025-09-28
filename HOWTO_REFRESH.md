@@ -1,13 +1,11 @@
-# Refresh the Dashboard & Insights from Excel
+# Refresh dashboard content from Excel
 
-When your Excel changes, run:
+Run this from repo root whenever the Excel updates:
 ```bash
-python3 tools/refresh_index.py path/to/Soha-Usage-Price-updated.xlsx public/INDEX.html
+python tools/refresh_index.py path/to/Soha-Usage-Price-updated.xlsx public/INDEX.html
 ```
-Then commit and push to `main` so Vercel redeploys.
-
-What gets updated:
-- Licensed Users, Active Utilization Rate, Cost per Download
-- Total 3-Year Spend, Document Downloads, Analyst Calls, Conference Sessions
-- Insights: average usefulness score and sample size, ROI
-- Tab-click behavior is also normalized if needed
+This recomputes:
+- **Overview KPIs** (blue tiles): Total Contract Cost, Total Spent (20 months) with % of APV, Licensed Users, Cost per Download, Avg Survey (Q1)
+- **Top User Analysis (20-month)** including **Conferences** column
+- **Insight Engine** recommendations and **🚩 At‑Risk Teams**
+- Exports CSVs into `public/data/`
