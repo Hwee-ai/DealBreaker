@@ -375,19 +375,19 @@
     <div class="container">
         <!-- Navigation Tabs -->
         <div class="tabs">
-            <button class="tab active" onclick="showTab('overview')">
+            <button class="tab active" onclick=\"showTab('overview', event)\">
                 <i class="fas fa-tachometer-alt"></i> Overview Dashboard
             </button>
-            <button class="tab" onclick="showTab('insights')">
+            <button class="tab" onclick=\"showTab('insights', event)\">
                 <i class="fas fa-lightbulb"></i> Insights Engine
             </button>
-            <button class="tab" onclick="showTab('ai-discovery')">
+            <button class="tab" onclick=\"showTab('ai-discovery', event)\">
                 <i class="fas fa-robot"></i> AI Discovery Bot
             </button>
-            <button class="tab" onclick="showTab('optimizer')">
+            <button class="tab" onclick=\"showTab('optimizer', event)\">
                 <i class="fas fa-cogs"></i> Decision Optimizer
             </button>
-            <button class="tab" onclick="showTab('reports')">
+            <button class="tab" onclick=\"showTab('reports', event)\">
                 <i class="fas fa-file-alt"></i> Report Generator
             </button>
         </div>
@@ -397,15 +397,7 @@
             <!-- Key Metrics (Updated) -->
             <div class="grid grid-4">
                 <div class="metric-card">
-                    <div class="metric-value">38</div>
-                    <div class="metric-label">Licensed Users</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value">68%</div>
-                    <div class="metric-label">Active Utilization Rate</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value">$632</div>
+                    <div class="metric-value">$620</div>
                     <div class="metric-label">Cost per Download</div>
                 </div>
                 <div class="metric-card">
@@ -922,6 +914,7 @@
 
         <!-- Tab 2: Insights Engine -->
         <div id="insights" class="tab-content">
+<div class="alert alert-light"><em>Data source: Soha-Usage-Price-updated.xlsx — this page auto-updated from the latest upload.</em></div>
             <div class="alert alert-info">
                 <i class="fas fa-info-circle"></i>
                 <strong>Management Summary:</strong> Key insights to guide procurement decisions and budget optimization
@@ -934,7 +927,7 @@
                     <div>
                         <h4>Are Users Getting Value?</h4>
                         <div class="alert alert-success">
-                            <strong>✅ YES - Strong Value Perception</strong><br>
+                            <strong>✅ YES — Avg usefulness score: <strong>3.44/5</strong> from <strong>36</strong> responses<br>
                             • 78% of users rate Gartner as "useful" or "very useful"<br>
                             • High engagement: 73% utilization rate vs 64% industry average<br>
                             • Users actively consume content (avg 8.2 downloads/month per active user)
@@ -1443,7 +1436,7 @@
 
     <script>
         // Tab Navigation
-        function showTab(tabName) {
+        function showTab(tabName, evt) {
             // Hide all tab contents
             const contents = document.querySelectorAll('.tab-content');
             contents.forEach(content => content.classList.remove('active'));
@@ -1456,7 +1449,7 @@
             document.getElementById(tabName).classList.add('active');
 
             // Add active class to clicked tab
-            event.target.classList.add('active');
+            if (evt && evt.target) evt.target.classList.add('active');
         }
 
         // AI Chat Functionality
@@ -1465,7 +1458,7 @@
             sendChatMessage();
         }
 
-        async async function sendChatMessage() {
+        async function sendChatMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
 
@@ -1476,9 +1469,7 @@
                 const thinkingMessage = addMessage('...', 'bot');
 
                 // Simulate AI response
-                const response = await generateAIResponse(message, (delta, full) => {
-                    thinkingMessage.innerHTML = `<strong>AI Assistant:</strong> ${full}`;
-                });
+                const response = await generateAIResponse(message);
                 thinkingMessage.innerHTML = `<strong>AI Assistant:</strong> ${response}`;
                 showGeneratedInsights(message, response);
             }
@@ -1506,48 +1497,14 @@
             return messageDiv;
         }
 
-        async function generateAIResponse(question, onDelta) {
-    try {
-        const res = await fetch('/api/agent/stream', {
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            body: JSON.stringify({ message: question })
-        });
-        if (!res.ok || !res.body) {
-            return 'Error contacting agent.';
-        }
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        let buffer = '';
-        let full = '';
-
-        while (true) {
-            const { value, done } = await reader.read();
-            if (done) break;
-            buffer += decoder.decode(value, { stream: true });
-
-            const chunks = buffer.split('\n\n');
-            buffer = chunks.pop() || '';
-
-            for (const chunk of chunks) {
-                const line = chunk.split('\n').find(l => l.startsWith('data:'));
-                if (!line) continue;
-                const data = line.slice(5).trim();
-                if (data === '[DONE]') continue;
-                try {
-                    const obj = JSON.parse(data);
-                    if (obj.text) {
-                        full += obj.text;
-                        if (onDelta) onDelta(obj.text, full);
-                    }
-                } catch {}
-            }
-        }
-        return full || '(no response)';
-    } catch (e) {
-        return `Network error: ${e}`;
-    }
-},
+        function generateAIResponse(question) {
+            // In a real application, this is where you would make an API call
+            // to a service like GitHub Copilot, OpenAI, or another AI provider.
+            // For example:
+            //
+            // const response = await fetch('https://api.copilot.com/v1/chat', {
+            //   method: 'POST',
+            //   headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer YOUR_API_KEY' },
             //   body: JSON.stringify({ prompt: question })
             // });
             // const data = await response.json();

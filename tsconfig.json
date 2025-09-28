@@ -14,7 +14,9 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "types": [
-      "node"
+      "node",
+      "react",
+      "react-dom"
     ],
     "skipLibCheck": true
   },
