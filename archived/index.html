@@ -1778,26 +1778,6 @@
             updatePQRatio();
             updateScenarios();
         });
-    
-
-async function generateAIResponse(question) {
-  try {
-    const res = await fetch('/api/agent', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ message: question })
-    });
-    if (!res.ok) {
-      const err = await res.text();
-      return `Sorry, I hit an error: ${err}`;
-    }
-    const data = await res.json();
-    return data.text || '(no response)';
-  } catch (e) {
-    return `Network error: ${e}`;
-  }
-}
-
-</script>
+    </script>
 </body>
 </html>
