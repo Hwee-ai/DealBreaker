@@ -1,29 +1,32 @@
-# dealBreaker – Next.js + OpenAI Streaming (Vercel-ready)
+# dealBreaker – React page at `/` + OpenAI Streaming (Vercel-ready)
 
-This scaffold streams OpenAI chat **token-by-token** to a simple chat UI at **`/INDEX.html`**.
+This scaffold loads a **React chat UI at the root path `/`** (pages router) and streams responses from OpenAI **word-by-word** via Server-Sent Events (SSE).
 
-## Quick Start
-
-1. **Create a new Git repo** and put these files at the repo root.
-2. **Vercel → New Project → Import this repo** (Framework detected: Next.js).
-3. **Add Environment Variables** (Project → Settings → Environment Variables):
-   - `OPENAI_API_KEY` = `sk-...`
-   - *(optional)* `OPENAI_MODEL` = `gpt-4o-mini`
-4. **Deploy**, then open: `https://your-app.vercel.app/INDEX.html`
-
-## Local Dev
+## Quick Start (Local)
 ```bash
 npm i
 npm run dev
-# open http://localhost:3000/INDEX.html
+# open http://localhost:3000/
 ```
 
+## Deploy on Vercel
+1. Push this repo to GitHub/GitLab.
+2. Vercel → New Project → Import repo (Framework: Next.js auto-detected).
+3. Add environment variables:
+   - `OPENAI_API_KEY` = `sk-...`
+   - *(optional)* `OPENAI_MODEL` = `gpt-4o-mini`
+4. Build settings (defaults are fine):
+   - Install: `npm install`
+   - Build: `npm run build`
+   - Output: *(leave empty)*
+
 ## Files
-- `public/INDEX.html` – Minimal chat UI, streams from `/api/agent`.
-- `pages/api/agent.js` – Node API route that proxies OpenAI and **re-emits SSE** as `data: {"text": "..."}`.
-- `package.json`, `next.config.mjs`, `vercel.json`, `tsconfig.json` – Standard Next.js/Vercel config.
+- `pages/index.tsx` – React chat UI at `/`, streams from `/api/agent`.
+- `pages/api/agent.js` – Node API route that proxies OpenAI and re-emits **SSE** as `data: {"text": "..."}`.
+- `package.json`, `next.config.mjs`, `tsconfig.json` – Standard Next.js config.
 - `.env.example` – Example environment variables.
+- `.gitignore` – Common ignores.
 
 ## Notes
-- Keep your API key **server-side** only. Never put it in client JS.
-- Swap models via `OPENAI_MODEL`. For Azure OpenAI, ask for the Azure variant of this API route.
+- Your API key must remain server-side only (in env vars).
+- Swap models via `OPENAI_MODEL`. For Azure OpenAI, request the Azure-compatible `agent.js` variant.

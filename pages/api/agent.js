@@ -1,7 +1,5 @@
 // /pages/api/agent.js
-export const config = {
-  api: { bodyParser: true }
-};
+export const config = { api: { bodyParser: true } };
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -19,18 +17,13 @@ export default async function handler(req, res) {
 
   const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
   const MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+  if (!OPENAI_API_KEY) return res.status(500).json({ error: 'OPENAI_API_KEY not set' });
 
-  if (!OPENAI_API_KEY) {
-    return res.status(500).json({ error: 'OPENAI_API_KEY not set' });
-  }
-
-  // Build OpenAI chat body
   const messages = [];
   if (body.system) messages.push({ role: 'system', content: body.system });
   if (Array.isArray(body.history)) messages.push(...body.history);
   messages.push({ role: 'user', content: body.message });
 
-  // SSE headers
   res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
   res.setHeader('Cache-Control', 'no-cache, no-transform');
   res.setHeader('Connection', 'keep-alive');
@@ -40,59 +33,35 @@ export default async function handler(req, res) {
   try {
     const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        stream: true,
-        temperature: 0.2,
-        messages
-      })
+      headers: { Authorization: `Bearer ${OPENAI_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: MODEL, stream: true, temperature: 0.2, messages })
     });
 
     if (!openaiRes.ok || !openaiRes.body) {
       const errText = await openaiRes.text().catch(() => '');
       res.write(`data: ${JSON.stringify({ text: 'Error contacting OpenAI: ' + (errText || openaiRes.status) })}\n\n`);
-      res.write('data: [DONE]\n\n');
-      return res.end();
+      res.write('data: [DONE]\n\n'); return res.end();
     }
 
     const decoder = new TextDecoder();
     let buffer = '';
-
     for await (const chunk of openaiRes.body) {
       buffer += decoder.decode(chunk, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop() || '';
-
+      const lines = buffer.split('\n'); buffer = lines.pop() || '';
       for (const line of lines) {
-        const trimmed = line.trim();
-        if (!trimmed.startsWith('data:')) continue;
-
-        const data = trimmed.slice(5).trim();
-        if (data === '[DONE]') {
-          res.write('data: [DONE]\n\n');
-          return res.end();
-        }
+        const t = line.trim(); if (!t.startsWith('data:')) continue;
+        const data = t.slice(5).trim();
+        if (data === '[DONE]') { res.write('data: [DONE]\n\n'); return res.end(); }
         try {
           const json = JSON.parse(data);
           const delta = json?.choices?.[0]?.delta?.content;
-          if (delta) {
-            res.write(`data: ${JSON.stringify({ text: delta })}\n\n`);
-          }
-        } catch {
-          // ignore non-JSON keepalives
-        }
+          if (delta) res.write(`data: ${JSON.stringify({ text: delta })}\n\n`);
+        } catch {}
       }
     }
-
-    res.write('data: [DONE]\n\n');
-    res.end();
+    res.write('data: [DONE]\n\n'); res.end();
   } catch (err) {
     res.write(`data: ${JSON.stringify({ text: 'Network error: ' + String(err) })}\n\n`);
-    res.write('data: [DONE]\n\n');
-    res.end();
+    res.write('data: [DONE]\n\n'); res.end();
   }
 }
