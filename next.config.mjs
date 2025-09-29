@@ -1,5 +1,3 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  async redirects() { return [{ source: '/', destination: '/INDEX.html', permanent: false }]; },
-};
+const nextConfig = {};
 export default nextConfig;
