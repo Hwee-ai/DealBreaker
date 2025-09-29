@@ -1,5 +1,8 @@
 {
   "version": 2,
   "framework": "nextjs",
-  "regions": ["sin1"]
+  "regions": ["sin1"],
+  "rewrites": [
+    { "source": "/", "destination": "/INDEX.html" }
+  ]
 }
