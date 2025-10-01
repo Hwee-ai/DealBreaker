@@ -1,8 +1,7 @@
-// TEMP: comment out until verified
-// export const runtime = 'edge';
-// export const preferredRegion = ['sin1', 'hkg1', 'bom1'];
 
 import { NextRequest, NextResponse } from 'next/server';
+
+const MODEL = 'gpt-4o';
 
 function ensure(name: string, val: string | undefined) {
   if (!val) throw new Error(`Missing required environment variable: ${name}`);
@@ -17,13 +16,11 @@ export async function POST(req: NextRequest) {
       message = body.message.trim();
     }
   } catch {
-    // return 400 for malformed JSON
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
   try {
     const apiKey = ensure('OPENAI_API_KEY', process.env.OPENAI_API_KEY);
-    const model = process.env.OPENAI_MODEL ?? 'gpt-4o-mini';
 
     const r = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -32,7 +29,7 @@ export async function POST(req: NextRequest) {
         'authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model,
+        model: MODEL,
         messages: [
           { role: 'system', content: 'You are a helpful assistant for a Singapore Government analysis portal.' },
           { role: 'user', content: message },
