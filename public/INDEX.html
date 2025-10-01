@@ -1546,26 +1546,47 @@
     if (activePane) showTab(activePane.id || 'overview');
   });
 
-  async function streamChat(message, onChunk){
-    const resp = await fetch('/api/agent/stream', {
-      method:'POST', headers:{'content-type':'application/json'},
-      body: JSON.stringify({ message })
-    });
-    if(!resp.ok) throw new Error('HTTP '+resp.status);
-    const reader = resp.body.getReader(); const decoder = new TextDecoder();
-    while(true){
-      const { value, done } = await reader.read(); if(done) break;
-      const text = decoder.decode(value);
-      const lines = text.split('\n');
-      for(const raw of lines){
-        if(!raw.startsWith('data:')) continue;
-        const data = raw.slice(5).trim();
-        if(!data) continue;
-        if(data==='[DONE]') return;
-        try{ const obj = JSON.parse(data); if(obj.text) onChunk(obj.text); }catch{}
+    async function streamChat(message, onChunk) {
+      const resp = await fetch('/api/agent/stream', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ message }),
+      });
+      if (!resp.ok || !resp.body) throw new Error('HTTP ' + resp.status);
+
+      const reader = resp.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        // Split by *double* newline = one SSE record
+        const records = buffer.split('\n\n');
+        buffer = records.pop() ?? '';
+
+        for (const rec of records) {
+          // Each record may have multiple lines; find the data line(s)
+          const lines = rec.split('\n').map(s => s.trim());
+          for (const line of lines) {
+            if (!line.startsWith('data:')) continue;
+            const payload = line.slice(5).trim();
+            if (!payload) continue;
+            if (payload === '[DONE]') return;        // stop cleanly
+
+            try {
+              const msg = JSON.parse(payload);
+              if (msg && typeof msg.text === 'string') onChunk(msg.text);
+            } catch {
+              // ignore non-JSON data frames
+            }
+          }
+        }
       }
     }
-  }
+
   document.addEventListener('DOMContentLoaded', function(){
     const input = document.getElementById('ai-chat-input');
     const sendBtn = document.getElementById('ai-chat-send') || document.getElementById('ai-chat-submit');
@@ -1581,5 +1602,93 @@
   });
 })();
 </script>
+<!-- Simple chat UI -->
+<div id="ai-bot" style="max-width:720px;margin:24px auto;padding:16px;border:1px solid #ddd;border-radius:12px">
+  <h3 style="margin-top:0">AI Discovery Bot</h3>
+  <div id="chat" style="white-space:pre-wrap;min-height:120px;border:1px solid #eee;padding:12px;border-radius:8px;margin-bottom:12px"></div>
+  <div style="display:flex;gap:8px">
+    <input id="msg" placeholder="Ask something..." style="flex:1;padding:10px;border:1px solid #ccc;border-radius:8px"/>
+    <button id="send" style="padding:10px 16px;border:0;background:#111;color:#fff;border-radius:8px;cursor:pointer">Send</button>
+  </div>
+</div>
+
+<script>
+  async function streamChat(message, onChunk) {
+    const resp = await fetch('/api/agent/stream', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ message }),
+    });
+    if (!resp.ok || !resp.body) throw new Error('HTTP ' + resp.status);
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      // Split by double newline = one SSE record
+      const records = buffer.split('\n\n');
+      buffer = records.pop() ?? '';
+
+      for (const rec of records) {
+        // Each record can have multiple lines; parse all data lines
+        const lines = rec.split('\n').map(s => s.trim());
+        for (const line of lines) {
+          if (!line.startsWith('data:')) continue;
+          const payload = line.slice(5).trim();
+          if (!payload) continue;
+          if (payload === '[DONE]') return; // stop cleanly
+
+          try {
+            const msg = JSON.parse(payload);
+            if (msg && typeof msg.text === 'string') onChunk(msg.text);
+          } catch { /* ignore non-JSON frames */ }
+        }
+      }
+    }
+  }
+
+  const chat = document.getElementById('chat');
+  const input = document.getElementById('msg');
+  const send = document.getElementById('send');
+
+  function append(role, text) {
+    const who = role === 'user' ? 'You' : 'Bot';
+    chat.textContent += (chat.textContent ? '\n' : '') + who + ': ' + text;
+  }
+
+  send.addEventListener('click', async () => {
+    const q = input.value.trim();
+    if (!q) return;
+    append('user', q);
+    input.value = '';
+    let acc = '';
+    await streamChat(q, chunk => {
+      acc += chunk;
+      // live rendering
+      const lines = chat.textContent.split('\n');
+      if (lines.length && lines[lines.length - 1].startsWith('Bot: ')) {
+        lines[lines.length - 1] = 'Bot: ' + acc;
+        chat.textContent = lines.join('\n');
+      } else {
+        append('bot', chunk); // first chunk creates the line
+      }
+    });
+  });
+
+  // optional: submit on Enter
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      send.click();
+    }
+  });
+</script>
+
+
 </body>
 </html>

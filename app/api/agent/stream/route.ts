@@ -1,7 +1,5 @@
-// TEMP: comment out until everything is verified on Node
-// export const runtime = 'edge';
+// export const runtime = 'edge'; // You can keep Edge, but comment out temporarily if you want to sanity-test on Node.
 // export const preferredRegion = ['sin1', 'hkg1', 'bom1'];
-
 import { NextRequest } from 'next/server';
 
 function sse(data: unknown, event?: string) {
@@ -9,17 +7,15 @@ function sse(data: unknown, event?: string) {
 }
 
 export async function POST(req: NextRequest) {
-  // Safe JSON parse
-  let message: string | undefined;
+  let message = 'Hello';
   try {
     const body = await req.json();
     if (typeof body?.message === 'string' && body.message.trim()) {
       message = body.message.trim();
     }
   } catch {
-    // fall through
+    // If you want, return a 400 here instead of defaulting to 'Hello'
   }
-  if (!message) message = 'Hello';
 
   const apiKey = process.env.OPENAI_API_KEY;
   const model = process.env.OPENAI_MODEL ?? 'gpt-4o-mini';
@@ -35,12 +31,12 @@ export async function POST(req: NextRequest) {
   const stream = new ReadableStream({
     async start(controller) {
       try {
-        const upstream = await fetch('https://api.openai.com/v1/chat/completions', {
+        const resp = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
           headers: {
             'content-type': 'application/json',
             'authorization': `Bearer ${apiKey}`,
-            'accept': 'text/event-stream', // important for some proxies
+            'accept': 'text/event-stream',
           },
           body: JSON.stringify({
             model,
@@ -54,25 +50,23 @@ export async function POST(req: NextRequest) {
           }),
         });
 
-        if (!upstream.ok || !upstream.body) {
-          const detail = await upstream.text().catch(() => '');
+        if (!resp.ok || !resp.body) {
+          const detail = await resp.text().catch(() => '');
           controller.enqueue(encoder.encode(sse({ detail }, 'error')));
-          controller.enqueue(encoder.encode(sse('[DONE]', 'done')));
+          controller.enqueue(encoder.encode(`data: [DONE]\n\n`));
           controller.close();
           return;
         }
 
-        const reader = upstream.body.getReader();
+        const reader = resp.body.getReader();
         const decoder = new TextDecoder();
         let buffer = '';
 
         while (true) {
           const { value, done } = await reader.read();
           if (done) break;
-
           buffer += decoder.decode(value, { stream: true });
 
-          // Split on *double* newline (SSE record separator)
           const records = buffer.split('\n\n');
           buffer = records.pop() ?? '';
 
@@ -82,26 +76,26 @@ export async function POST(req: NextRequest) {
             const payload = line.slice(5).trim();
 
             if (payload === '[DONE]') {
-              controller.enqueue(encoder.encode(sse('[DONE]', 'done')));
+              controller.enqueue(encoder.encode(`data: [DONE]\n\n`));
               controller.close();
               return;
             }
 
             try {
               const json = JSON.parse(payload);
-              const chunk = json?.choices?.[0]?.delta?.content;
-              if (chunk) controller.enqueue(encoder.encode(sse({ text: chunk })));
+              const delta = json?.choices?.[0]?.delta?.content;
+              if (delta) controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text: delta })}\n\n`));
             } catch {
-              // ignore JSON parse errors for non-data lines
+              // ignore non-JSON frames
             }
           }
         }
 
-        controller.enqueue(encoder.encode(sse('[DONE]', 'done')));
+        controller.enqueue(encoder.encode(`data: [DONE]\n\n`));
         controller.close();
-      } catch (err) {
-        controller.enqueue(encoder.encode(sse({ detail: String(err) }, 'error')));
-        controller.enqueue(encoder.encode(sse('[DONE]', 'done')));
+      } catch (e) {
+        controller.enqueue(encoder.encode(sse({ detail: String(e) }, 'error')));
+        controller.enqueue(encoder.encode(`data: [DONE]\n\n`));
         controller.close();
       }
     },
@@ -111,7 +105,7 @@ export async function POST(req: NextRequest) {
     headers: {
       'content-type': 'text/event-stream; charset=utf-8',
       'cache-control': 'no-cache',
-      // DO NOT set 'Connection' in Edge/Fetch responses
+      // DO NOT set 'Connection' here
     },
   });
 }
