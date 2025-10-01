@@ -1,86 +1,61 @@
-export const runtime = 'edge';
-export const preferredRegion = ['sin1', 'hkg1', 'bom1'];
+// TEMP: comment out until verified
+// export const runtime = 'edge';
+// export const preferredRegion = ['sin1', 'hkg1', 'bom1'];
 
 import { NextRequest, NextResponse } from 'next/server';
 
-type ChatRequestBody = {
-  message?: unknown;
-};
-
-type OpenAIChatCompletion = {
-  choices?: Array<{
-    message?: {
-      content?: string;
-    };
-  }>;
-};
-
-function validateEnv(variable: string, value: string | undefined): asserts value is string {
-  if (!value) {
-    throw new Error(`Missing required environment variable: ${variable}`);
-  }
+function ensure(name: string, val: string | undefined) {
+  if (!val) throw new Error(`Missing required environment variable: ${name}`);
+  return val;
 }
 
 export async function POST(req: NextRequest) {
-  let body: ChatRequestBody;
-
+  let message = 'Hello';
   try {
-    body = await req.json();
+    const body = await req.json();
+    if (typeof body?.message === 'string' && body.message.trim()) {
+      message = body.message.trim();
+    }
   } catch {
+    // return 400 for malformed JSON
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
-  const userMessage = typeof body?.message === 'string' && body.message.trim().length > 0
-    ? body.message
-    : 'Hello';
-
   try {
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = ensure('OPENAI_API_KEY', process.env.OPENAI_API_KEY);
     const model = process.env.OPENAI_MODEL ?? 'gpt-4o-mini';
 
-    validateEnv('OPENAI_API_KEY', apiKey);
-
-    const url = 'https://api.openai.com/v1/chat/completions';
-
-    const response = await fetch(url, {
+    const r = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
+        'authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model,
         messages: [
-          {
-            role: 'system',
-            content: 'You are a helpful assistant for a Singapore Government analysis portal.',
-          },
-          {
-            role: 'user',
-            content: userMessage,
-          },
+          { role: 'system', content: 'You are a helpful assistant for a Singapore Government analysis portal.' },
+          { role: 'user', content: message },
         ],
         temperature: 0.2,
         max_tokens: 500,
       }),
     });
 
-    if (!response.ok) {
-      const detail = await response.text();
-      return NextResponse.json({ error: 'LLM error', detail }, { status: 500 });
+    if (!r.ok) {
+      const detail = await r.text().catch(() => '');
+      return NextResponse.json({ error: 'LLM error', detail }, { status: 502 });
     }
 
-    const data = (await response.json()) as OpenAIChatCompletion;
+    const data = await r.json();
     const text = data?.choices?.[0]?.message?.content ?? '';
-
     return NextResponse.json({ text });
-  } catch (error) {
-    const detail = error instanceof Error ? error.message : String(error);
-    const isConfigError = detail.startsWith('Missing required environment variable');
-
+  } catch (e: any) {
+    const detail = e?.message ?? String(e);
+    const isConfig = detail.startsWith('Missing required environment variable');
     return NextResponse.json(
-      { error: isConfigError ? 'Configuration error' : 'Network error', detail },
-      { status: isConfigError ? 500 : 504 },
+      { error: isConfig ? 'Configuration error' : 'Network error', detail },
+      { status: isConfig ? 500 : 504 },
     );
   }
 }
