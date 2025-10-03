@@ -1,6 +1,7 @@
 {
-  "name": "dealbreaker-app",
+  "name": "dealbreaker-app-react-plus",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",

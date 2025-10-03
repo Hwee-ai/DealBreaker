@@ -1,7 +1,6 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 
-const MODEL = 'gpt-4o';
+const MODEL = process.env.OPENAI_MODEL || 'gpt-4o';
 
 function ensure(name: string, val: string | undefined) {
   if (!val) throw new Error(`Missing required environment variable: ${name}`);
